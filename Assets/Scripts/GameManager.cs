@@ -57,11 +57,13 @@ public class GameManager : MonoBehaviour
         if (m_nLevelIndex >= m_nTotalLevels)
         {
             Debug.Log("GAME WIN");
+            UIManager.Instance.EnableGameEndPanel(true);
             return;
         }
         m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
         m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
         Debug.Log("m_actionStateFinal "+ m_actionStateFinal);
+        UIManager.Instance.SetStartUpText("");
         // disable unwanted players
         List<GameObject> l_listPlayers = m_cameraController.Player;
         foreach (GameObject l_player in l_listPlayers)
@@ -111,6 +113,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("LEVEL FAILED - RETRY");
+                UIManager.Instance.EnableLevelFailedPanel(true);
                 //m_cameraController.Init();
             }
             return;

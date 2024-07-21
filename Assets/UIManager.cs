@@ -1,24 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject p_ActionPopup;
+    [SerializeField]
+    private GameObject p_LevelFailedPopup;
+    [SerializeField]
+    private GameObject p_GameEndPopup;
+    [SerializeField]
+    private TMP_Text p_StartUpText;
 
     public ActionState actionState;
+    public static UIManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
         EnableActionCanvas(false);
+        EnableLevelFailedPanel(false);
+        EnableGameEndPanel(false);
     }
 
     private void EnableActionCanvas(bool state) 
     {
         p_ActionPopup.SetActive(state);
+        p_LevelFailedPopup.SetActive(false);
+        p_GameEndPopup.SetActive(false);
     }
-
+    public void EnableLevelFailedPanel(bool state)
+    {
+        p_LevelFailedPopup.SetActive(state);
+        p_ActionPopup.SetActive(false);
+        p_GameEndPopup.SetActive(false);
+    }
+    public void EnableGameEndPanel(bool state)
+    {
+        p_GameEndPopup.SetActive(state);
+        p_ActionPopup.SetActive(false);
+        p_LevelFailedPopup.SetActive(false);
+    }
+    public void SetStartUpText(string value) 
+    {
+        p_StartUpText.text = "Make this character "+ value;
+    }
     public void Wave() 
     {
         EnableActionCanvas(true);
