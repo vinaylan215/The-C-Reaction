@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
         m_actionStateCurrent = a_animation;
         int l_nNextAnimationIndex = GetNextChainIndex(l_nAnimationIndex);
         m_nCharacterAnimationsDone++;
+        CameraController.instance.NextCameraMove();
         StartCoroutine(WaitForSecond(3.0f, ()=>{
             PlayAnimationInChain((ActionState)l_nNextAnimationIndex);
         }));
