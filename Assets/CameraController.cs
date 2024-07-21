@@ -162,6 +162,7 @@ public class CameraController : MonoBehaviour
         yield return StartCoroutine(SwitchCamera(cam1, cam3, transitionDuration));
 
         Debug.Log("Waiting for 2 seconds at cam3...");
+        GameManager.Instance.SetStartUpText();
         yield return new WaitForSeconds(2f);
 
         Debug.Log("Transitioning back to cam1...");

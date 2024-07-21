@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
+    private GameObject p_Menu;
+    [SerializeField]
+    private GameObject p_HowtoPlay;
+    [SerializeField]
+    private GameObject p_InfoPanel;
+    [SerializeField]
     private GameObject p_ButtonPopup;
     [SerializeField]
     private GameObject p_ActionPopup;
@@ -33,6 +39,9 @@ public class UIManager : MonoBehaviour
         EnableGameEndPanel(false);
         EnableButtonPanel(false);
         EnableLevelUpPanel(false);
+        p_Menu.SetActive(true);
+        p_HowtoPlay.SetActive(false);
+        p_InfoPanel.SetActive(false);
     }
 
     private void EnableActionCanvas(bool state) 
@@ -152,6 +161,23 @@ public class UIManager : MonoBehaviour
     {
         p_LevelUpPopup.SetActive(false);
         GameManager.Instance.LevelUP();
+    }
+    public void OnClick_Quit()
+    {
+        Application.Quit();
+    }
+    public void OnClick_Play()
+    {
+        p_Menu.SetActive(false);
+        GameManager.Instance.LoadLevel();
+    }
+    public void OnClick_HowtoPlay(bool state)
+    {
+        p_HowtoPlay.SetActive(state);
+    }
+    public void OnClick_InfoPanel(bool state)
+    {
+        p_InfoPanel.SetActive(state);
     }
 }
 public enum ActionState 

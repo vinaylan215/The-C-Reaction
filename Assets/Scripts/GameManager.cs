@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviour
 
         // Load level
         m_nTotalLevels = m_arrGameLevels.Length;
-        LoadLevel();
+        //LoadLevel();
     }
 
-    void LoadLevel()
+    public void LoadLevel()
     {
         if (m_nLevelIndex >= m_nTotalLevels)
         {
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
         m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
         Debug.Log("m_actionStateFinal "+ m_actionStateFinal);
-        UIManager.Instance.SetStartUpText(m_actionStateFinal.ToString());
+        //UIManager.Instance.SetStartUpText(m_actionStateFinal.ToString());
         // disable unwanted players
         List<GameObject> l_listPlayers = m_cameraController.Player;
         foreach (GameObject l_player in l_listPlayers)
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
         int l_nNextAnimationIndex = GetNextChainIndex(l_nAnimationIndex);
         m_nCharacterAnimationsDone++;
         m_cameraController.NextCameraMove(animTime);
-        StartCoroutine(WaitForSecond(animTime + 0.5f, ()=>{
+        StartCoroutine(WaitForSecond(animTime + 1f, ()=>{
             m_AudioSource.Stop();
             PlayAnimationInChain((ActionState)l_nNextAnimationIndex);
         }));
