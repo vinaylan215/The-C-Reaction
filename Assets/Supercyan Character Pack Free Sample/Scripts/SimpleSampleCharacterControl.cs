@@ -148,6 +148,10 @@ namespace Supercyan.FreeSample
             {
                 m_animator.SetTrigger("Spin");
             }
+            if (!m_jumpInput && Input.GetKey(KeyCode.J))
+            {
+                m_animator.SetTrigger("Jump");
+            }
         }
 
         private void FixedUpdate()
