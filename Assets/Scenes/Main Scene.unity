@@ -11429,6 +11429,7 @@ MonoBehaviour:
     m_actionStateFinal: 2
   - m_nTotalCharacters: 8
     m_actionStateFinal: 4
+  m_cameraController: {fileID: 1706650962}
 --- !u!4 &1706650961
 Transform:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     int m_nTotalCharacters = 3;
     [SerializeField]
     GameLevel[] m_arrGameLevels = null;
+    [SerializeField]
+    CameraController m_cameraController = null;
 
     public static GameManager Instance;
 
@@ -59,6 +61,16 @@ public class GameManager : MonoBehaviour
         }
         m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
         m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
+        // disable unwanted players
+        List<GameObject> l_listPlayers = m_cameraController.Player;
+        foreach (GameObject l_player in l_listPlayers)
+        {
+            l_player.SetActive(false);
+        }
+        for (int l_nIndex = 0; l_nIndex < m_nTotalCharacters; l_nIndex++)
+        {
+            l_listPlayers[l_nIndex].SetActive(true);
+        }
     }
 
     void ShuffleChain()
