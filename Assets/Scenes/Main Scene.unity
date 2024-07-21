@@ -4821,6 +4821,78 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 934546015}
   m_Mesh: {fileID: 1044328042288335648, guid: c03ea5379419595469ea31e60d60fae1, type: 3}
+--- !u!1 &936514844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936514846}
+  - component: {fileID: 936514845}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &936514845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936514844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665cdef6127454e43823ca632fe8d97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_nTotalAnimations: 8
+  m_arrAnimators:
+  - {fileID: 1814538014}
+  - {fileID: 1839866046}
+  - {fileID: 432507093}
+  - {fileID: 162403803}
+  - {fileID: 862297385}
+  - {fileID: 1571620208}
+  - {fileID: 1078451639}
+  - {fileID: 40146705}
+  m_nTotalCharacters: 5
+  m_arrGameLevels:
+  - m_nTotalCharacters: 2
+    m_actionStateFinal: 3
+  - m_nTotalCharacters: 3
+    m_actionStateFinal: 6
+  - m_nTotalCharacters: 3
+    m_actionStateFinal: 1
+  - m_nTotalCharacters: 4
+    m_actionStateFinal: 0
+  - m_nTotalCharacters: 5
+    m_actionStateFinal: 7
+  - m_nTotalCharacters: 6
+    m_actionStateFinal: 5
+  - m_nTotalCharacters: 7
+    m_actionStateFinal: 2
+  - m_nTotalCharacters: 8
+    m_actionStateFinal: 4
+--- !u!4 &936514846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936514844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &947002286
 GameObject:
   m_ObjectHideFlags: 0
@@ -8371,61 +8443,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697089100}
   m_Mesh: {fileID: 2443904453477644371, guid: 6272a4797bf2df84286aa94db68a2bef, type: 3}
---- !u!1 &1706650959
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1706650961}
-  - component: {fileID: 1706650960}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1706650960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706650959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 665cdef6127454e43823ca632fe8d97a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_nTotalAnimations: 8
-  m_arrAnimators:
-  - {fileID: 1814538014}
-  - {fileID: 1839866046}
-  - {fileID: 432507093}
-  - {fileID: 162403803}
-  - {fileID: 862297385}
-  - {fileID: 1571620208}
-  - {fileID: 1078451639}
-  - {fileID: 40146705}
-  m_nTotalCharacters: 5
---- !u!4 &1706650961
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706650959}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759523497
 GameObject:
   m_ObjectHideFlags: 0
@@ -10810,4 +10827,4 @@ SceneRoots:
   - {fileID: 428158215}
   - {fileID: 510491836}
   - {fileID: 1080908935}
-  - {fileID: 1706650961}
+  - {fileID: 936514846}

@@ -11,11 +11,17 @@ public class GameManager : MonoBehaviour
     Animator[] m_arrAnimators = null;
     [SerializeField]
     int m_nTotalCharacters = 3;
+    [SerializeField]
+    GameLevel[] m_arrGameLevels = null;
 
     public static GameManager Instance;
 
     ChainNode[] m_arrChainNodes;
     int m_nCharacterAnimationsDone = 0;
+    int m_nLevelIndex = 0;
+    ActionState m_actionStateFinal;
+    ActionState m_actionStateCurrent;
+    int m_nTotalLevels;
 
     void Awake()
     {
@@ -38,6 +44,21 @@ public class GameManager : MonoBehaviour
             Debug.LogError("m_arrChainNodes["+l_nIndex+"].m_nCurrentNode: "+m_arrChainNodes[l_nIndex].m_nCurrentNode);
             Debug.LogError("m_arrChainNodes["+l_nIndex+"].m_nNextNode: "+m_arrChainNodes[l_nIndex].m_nNextNode);
         }
+
+        // Load level
+        m_nTotalLevels = m_arrGameLevels.Length;
+        LoadLevel();
+    }
+
+    void LoadLevel()
+    {
+        if (m_nLevelIndex >= m_nTotalLevels)
+        {
+            Debug.Log("GAME WIN");
+            return;
+        }
+        m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
+        m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
     }
 
     void ShuffleChain()
@@ -65,7 +86,20 @@ public class GameManager : MonoBehaviour
     public void PlayAnimationInChain(ActionState a_animation)
     {
         if (m_nCharacterAnimationsDone >= m_nTotalCharacters)
+        {
+            m_nCharacterAnimationsDone = 0;
+            if (m_actionStateCurrent == m_actionStateFinal)
+            {
+                Debug.Log("LEVEL WIN");
+                m_nLevelIndex++;
+                LoadLevel();
+            }
+            else
+            {
+                Debug.Log("LEVEL FAILED - RETRY");
+            }
             return;
+        }
         
         switch (a_animation)
         {
@@ -95,6 +129,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
         int l_nAnimationIndex = (int)a_animation;
+        m_actionStateCurrent = a_animation;
         int l_nNextAnimationIndex = GetNextChainIndex(l_nAnimationIndex);
         m_nCharacterAnimationsDone++;
         StartCoroutine(WaitForSecond(3.0f, ()=>{
@@ -123,4 +158,13 @@ public class ChainNode
 {
     public int m_nCurrentNode;
     public int m_nNextNode;
+}
+
+[Serializable]
+public class GameLevel
+{
+    [SerializeField]
+    public int m_nTotalCharacters;
+    [SerializeField]
+    public ActionState m_actionStateFinal;
 }
