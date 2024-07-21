@@ -171,6 +171,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(a_fWait);
         a_callback?.Invoke();
     }
+
+    public void RestartGame()
+    {
+        m_nLevelIndex = 0;
+        m_nCharacterAnimationsDone = 0;
+        LoadLevel();
+    }
 }
 
 public class ChainNode

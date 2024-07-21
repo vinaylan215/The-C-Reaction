@@ -5087,7 +5087,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1334091739}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: NoAction
+        m_MethodName: OnClick_Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7230,7 +7230,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1334091739}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: YesAction
+        m_MethodName: OnClick_Retry
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

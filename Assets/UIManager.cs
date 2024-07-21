@@ -102,6 +102,17 @@ public class UIManager : MonoBehaviour
         actionState = ActionState.None;
     }
 
+    public void OnClick_Retry()
+    {
+        EnableActionCanvas(false);
+        // TODO: transition camera to player 1 & enable button panel
+    }
+
+    public void OnClick_Restart()
+    {
+        EnableActionCanvas(false);
+        GameManager.Instance.RestartGame();
+    }
 }
 public enum ActionState 
 {
