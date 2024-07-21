@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     {
         EnableActionCanvas(false);
         Debug.Log("Action to Perform "+actionState);
+        GameManager.Instance.PlayAnimationInChain(actionState);
     }
     public void NoAction()
     {
