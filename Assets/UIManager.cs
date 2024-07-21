@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject p_ButtonPopup;
     [SerializeField]
     private GameObject p_ActionPopup;
     [SerializeField]
     private GameObject p_LevelFailedPopup;
     [SerializeField]
     private GameObject p_GameEndPopup;
+    [SerializeField]
+    private GameObject p_LevelUpPopup;
     [SerializeField]
     private TMP_Text p_StartUpText;
 
@@ -26,6 +31,8 @@ public class UIManager : MonoBehaviour
         EnableActionCanvas(false);
         EnableLevelFailedPanel(false);
         EnableGameEndPanel(false);
+        EnableButtonPanel(false);
+        EnableLevelUpPanel(false);
     }
 
     private void EnableActionCanvas(bool state) 
@@ -33,21 +40,47 @@ public class UIManager : MonoBehaviour
         p_ActionPopup.SetActive(state);
         p_LevelFailedPopup.SetActive(false);
         p_GameEndPopup.SetActive(false);
+        p_LevelUpPopup.SetActive(false);
+        p_ButtonPopup.SetActive(false);
     }
     public void EnableLevelFailedPanel(bool state)
     {
         p_LevelFailedPopup.SetActive(state);
         p_ActionPopup.SetActive(false);
         p_GameEndPopup.SetActive(false);
+        p_LevelUpPopup.SetActive(false); 
+        p_ButtonPopup.SetActive(false);
     }
     public void EnableGameEndPanel(bool state)
     {
         p_GameEndPopup.SetActive(state);
         p_ActionPopup.SetActive(false);
         p_LevelFailedPopup.SetActive(false);
+        p_LevelUpPopup.SetActive(false);
+    }
+    public void EnableButtonPanel(bool state)
+    {
+        p_ButtonPopup.SetActive(state);
+        p_GameEndPopup.SetActive(false);
+        p_ActionPopup.SetActive(false);
+        p_LevelFailedPopup.SetActive(false);
+        p_LevelUpPopup.SetActive(false);
+    }
+    public void EnableLevelUpPanel(bool state)
+    {
+        p_LevelUpPopup.SetActive(state);
+        p_ButtonPopup.SetActive(false);
+        p_GameEndPopup.SetActive(false);
+        p_ActionPopup.SetActive(false);
+        p_LevelFailedPopup.SetActive(false);
     }
     public void SetStartUpText(string value) 
     {
+        if (value == "") 
+        {
+            p_StartUpText.text = "";
+            return;
+        }
         p_StartUpText.text = "Make this character "+ value;
     }
     public void Wave() 
@@ -93,7 +126,7 @@ public class UIManager : MonoBehaviour
     public void YesAction() 
     {
         EnableActionCanvas(false);
-        Debug.Log("Action to Perform "+actionState);
+        p_ButtonPopup.SetActive(false);
         GameManager.Instance.PlayAnimationInChain(actionState);
     }
     public void NoAction()
@@ -105,13 +138,20 @@ public class UIManager : MonoBehaviour
     public void OnClick_Retry()
     {
         EnableActionCanvas(false);
-        // TODO: transition camera to player 1 & enable button panel
+        GameManager.Instance.SetStartUpText();
+        CameraController.instance.Init();
     }
 
     public void OnClick_Restart()
     {
-        EnableActionCanvas(false);
-        GameManager.Instance.RestartGame();
+        /*EnableActionCanvas(false);
+        GameManager.Instance.RestartGame();*/
+        SceneManager.LoadScene("Main Scene");
+    }
+    public void OnClick_Next()
+    {
+        p_LevelUpPopup.SetActive(false);
+        GameManager.Instance.LevelUP();
     }
 }
 public enum ActionState 

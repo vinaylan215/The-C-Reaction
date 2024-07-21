@@ -14,16 +14,40 @@ public class CameraController : MonoBehaviour
     public List<GameObject> Player = new List<GameObject>();
     private int currentCamIndex = 1;
     public Vector3 cam1NewPosition;
+    GameObject lastActiveGameObject;
+    GameObject firstActiveGameObject;
 
     private void Awake()
     {
         instance = this;
     }
+
     public void Init()
     {
-        // Find the last active game object
-        GameObject lastActiveGameObject = FindLastActiveGameObject();
+        // Reset the currentCamIndex
+        currentCamIndex = 1;
 
+        // Ensure the CinemachineBrain component is attached to the main camera
+        if (cinemachineBrain == null)
+        {
+            cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+        }
+
+        // Deactivate all cameras initially
+        foreach (var player in Player)
+        {
+            if (player != null)
+            {
+                Transform camTransform = player.transform.GetChild(3);
+                if (camTransform != null)
+                {
+                    camTransform.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        // Find the last active game object
+        lastActiveGameObject = FindLastActiveGameObject();
         if (lastActiveGameObject != null)
         {
             Debug.Log("The last active game object is: " + lastActiveGameObject.name);
@@ -34,6 +58,7 @@ public class CameraController : MonoBehaviour
                 if (cam3 != null)
                 {
                     cam3.Priority = 20;
+                    cam3.gameObject.SetActive(true);
                 }
                 else
                 {
@@ -51,7 +76,7 @@ public class CameraController : MonoBehaviour
         }
 
         // Find the first active game object
-        GameObject firstActiveGameObject = FindFirstActiveGameObject();
+        firstActiveGameObject = FindFirstActiveGameObject();
         if (firstActiveGameObject != null)
         {
             Debug.Log("The first active game object is: " + firstActiveGameObject.name);
@@ -62,6 +87,7 @@ public class CameraController : MonoBehaviour
                 if (cam2 != null)
                 {
                     cam2.Priority = 0;
+                    cam2.gameObject.SetActive(true);
                 }
                 else
                 {
@@ -97,10 +123,9 @@ public class CameraController : MonoBehaviour
 
         // Set initial priorities to ensure cam1 starts focused
         cam1.Priority = 10;
+        cam1.gameObject.SetActive(true);
 
-        // Ensure the CinemachineBrain component is attached to the main camera
-        cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
-
+        // Start initial transition if cam3 is not null
         if (cam3 != null)
         {
             StartCoroutine(InitialTransition());
@@ -130,6 +155,7 @@ public class CameraController : MonoBehaviour
         }
         return null;
     }
+
     private IEnumerator InitialTransition()
     {
         Debug.Log("Starting initial transition to cam3...");
@@ -139,6 +165,7 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         Debug.Log("Transitioning back to cam1...");
+        UIManager.Instance.SetStartUpText("");
         yield return StartCoroutine(SwitchCamera(cam3, cam1, transitionDuration));
 
         Debug.Log("First transition complete");
@@ -153,29 +180,27 @@ public class CameraController : MonoBehaviour
         yield return StartCoroutine(SwitchCamera(cam1, cam2, transitionDuration));
 
         Debug.Log("Second Transition from cam1 to cam2 Complete");
-
+        UIManager.Instance.EnableButtonPanel(true);
         // Simulate receiving a callback after some action
         //yield return StartCoroutine(WaitForCallback());
         //StartCoroutine(WaitForCallback());
     }
 
-    public void NextCameraMove()
+    public void NextCameraMove(float value)
     {
-        StartCoroutine(WaitForCallback());
+        Debug.LogError("Next Move");
+        StartCoroutine(WaitForCallback(value));
     }
-    private IEnumerator WaitForCallback()
-    {
-        // Simulate a wait for a callback (e.g., animation or event completion)
-        yield return new WaitForSeconds(2f);
 
-        // Enable the next camera in the list
+    private IEnumerator WaitForCallback(float value)
+    {
+        yield return new WaitForSeconds(value);
+
         if (currentCamIndex <= Player.Count - 1)
         {
             Player[currentCamIndex].transform.GetChild(3).gameObject.SetActive(true);
             CinemachineVirtualCamera nextCam = Player[currentCamIndex].transform.GetChild(3).GetComponent<CinemachineVirtualCamera>();
 
-            // Transition to the next camera
-            //Debug.Log($"Transitioning from cam2 to {nextCam.name}...");
             yield return StartCoroutine(SwitchCamera(cam2, nextCam, transitionDuration));
 
             Debug.Log("Transition to next camera complete");
@@ -183,22 +208,6 @@ public class CameraController : MonoBehaviour
             currentCamIndex++;
         }
     }
-
-    //private IEnumerator SwitchCameraAfterAnim(CinemachineVirtualCamera fromCam, CinemachineVirtualCamera toCam, float duration, System.Action callback)
-    //{
-    //    fromCam.Priority = 10;
-    //    toCam.Priority = 20;
-
-    //    float elapsedTime = 0f;
-    //    while (elapsedTime < duration)
-    //    {
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    Debug.Log($"Completed transition from {fromCam.name} to {toCam.name}");
-    //    callback?.Invoke();
-    //}
 
     private IEnumerator SwitchCamera(CinemachineVirtualCamera fromCam, CinemachineVirtualCamera toCam, float duration)
     {
@@ -218,5 +227,4 @@ public class CameraController : MonoBehaviour
 
         Debug.Log($"Completed transition from {fromCam.name} to {toCam.name}");
     }
-
 }

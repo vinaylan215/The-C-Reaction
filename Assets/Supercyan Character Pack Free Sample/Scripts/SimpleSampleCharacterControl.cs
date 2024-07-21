@@ -108,7 +108,7 @@ namespace Supercyan.FreeSample
 
         private void Update()
         {
-            if (!m_jumpInput && Input.GetKey(KeyCode.Space))
+            /*if (!m_jumpInput && Input.GetKey(KeyCode.Space))
             {
                 m_jumpInput = true;
             }
@@ -151,7 +151,7 @@ namespace Supercyan.FreeSample
             if (!m_jumpInput && Input.GetKey(KeyCode.J))
             {
                 m_animator.SetTrigger("Jump");
-            }
+            }*/
         }
 
         private void FixedUpdate()
@@ -179,7 +179,7 @@ namespace Supercyan.FreeSample
 
         private void TankUpdate()
         {
-            float v = Input.GetAxis("Vertical");
+            /*float v = Input.GetAxis("Vertical");
             float h = Input.GetAxis("Horizontal");
 
             bool walk = Input.GetKey(KeyCode.LeftShift);
@@ -201,7 +201,7 @@ namespace Supercyan.FreeSample
             transform.Rotate(0, m_currentH * m_turnSpeed * Time.deltaTime, 0);
 
             m_animator.SetFloat("MoveSpeed", m_currentV);
-
+*/
             JumpingAndLanding();
         }
 

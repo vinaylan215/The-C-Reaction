@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     ActionState m_actionStateCurrent;
     int m_nTotalLevels;
 
+    [SerializeField]
+    List<AudioClip> m_AudioClips = null;
+    [SerializeField]
+    AudioSource m_AudioSource = null;
     void Awake()
     {
         Instance = this;
@@ -63,7 +67,7 @@ public class GameManager : MonoBehaviour
         m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
         m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
         Debug.Log("m_actionStateFinal "+ m_actionStateFinal);
-        UIManager.Instance.SetStartUpText("");
+        UIManager.Instance.SetStartUpText(m_actionStateFinal.ToString());
         // disable unwanted players
         List<GameObject> l_listPlayers = m_cameraController.Player;
         foreach (GameObject l_player in l_listPlayers)
@@ -107,55 +111,84 @@ public class GameManager : MonoBehaviour
             if (m_actionStateCurrent == m_actionStateFinal)
             {
                 Debug.Log("LEVEL WIN");
-                m_nLevelIndex++;
-                LoadLevel();
+                UIManager.Instance.EnableLevelUpPanel(true);
+                m_AudioSource.clip = m_AudioClips[9];
+                m_AudioSource.Play();
             }
             else
             {
                 Debug.Log("LEVEL FAILED - RETRY");
+                m_AudioSource.clip = m_AudioClips[8];
+                m_AudioSource.Play();
                 UIManager.Instance.EnableLevelFailedPanel(true);
                 //m_cameraController.Init();
             }
             return;
         }
-        
+        float animTime = 0f;
         switch (a_animation)
         {
             case ActionState.Wave:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Wave");
+                m_AudioSource.clip = m_AudioClips[0];
+                animTime = 3.2f;
                 break;
             case ActionState.Cheer:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Cheer");
+                m_AudioSource.clip = m_AudioClips[1];
+                animTime = 3.35f;
                 break;
             case ActionState.Dance:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Dance");
+                m_AudioSource.clip = m_AudioClips[2];
+                animTime = 3.15f;
                 break;
             case ActionState.Kick:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Kick");
+                m_AudioSource.clip = m_AudioClips[3];
+                animTime = 1.2f;
                 break;
             case ActionState.Punch:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Punch");
+                m_AudioSource.clip = m_AudioClips[4];
+                animTime = 1.0f;
                 break;
             case ActionState.Jump:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Jump");
+                m_AudioSource.clip = m_AudioClips[5];
+                animTime = 1.25f;
                 break;
             case ActionState.Pickup:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Pickup");
+                m_AudioSource.clip = m_AudioClips[6];
+                animTime = 1.56f;
                 break;
             case ActionState.Spin:
                 m_arrAnimators[m_nCharacterAnimationsDone].SetTrigger("Spin");
+                m_AudioSource.clip = m_AudioClips[7];
+                animTime = 1.10f;
                 break;
         }
+        m_AudioSource.Play();
         int l_nAnimationIndex = (int)a_animation;
         m_actionStateCurrent = a_animation;
         int l_nNextAnimationIndex = GetNextChainIndex(l_nAnimationIndex);
         m_nCharacterAnimationsDone++;
-        m_cameraController.NextCameraMove();
-        StartCoroutine(WaitForSecond(3.0f, ()=>{
+        m_cameraController.NextCameraMove(animTime);
+        StartCoroutine(WaitForSecond(animTime + 0.5f, ()=>{
+            m_AudioSource.Stop();
             PlayAnimationInChain((ActionState)l_nNextAnimationIndex);
         }));
     }
-
+    public void LevelUP() 
+    {
+        m_nLevelIndex++;
+        LoadLevel();
+    }
+    public void SetStartUpText() 
+    {
+        UIManager.Instance.SetStartUpText(m_actionStateFinal.ToString());
+    }
     int GetNextChainIndex(int a_nAnimationIndex)
     {
         for (int l_nIndex = 0; l_nIndex < m_nTotalAnimations; l_nIndex++)
