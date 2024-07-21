@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     {
         instance = this;
     }
-    void Start()
+    public void Init()
     {
         // Find the last active game object
         GameObject lastActiveGameObject = FindLastActiveGameObject();
@@ -208,7 +208,7 @@ public class CameraController : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * 2.0f;
             yield return null;
         }
         while (cinemachineBrain.IsBlending)

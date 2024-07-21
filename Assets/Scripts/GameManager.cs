@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
         }
         m_nTotalCharacters = m_arrGameLevels[m_nLevelIndex].m_nTotalCharacters;
         m_actionStateFinal = m_arrGameLevels[m_nLevelIndex].m_actionStateFinal;
+        Debug.Log("m_actionStateFinal "+ m_actionStateFinal);
         // disable unwanted players
         List<GameObject> l_listPlayers = m_cameraController.Player;
         foreach (GameObject l_player in l_listPlayers)
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         {
             l_listPlayers[l_nIndex].SetActive(true);
         }
+        m_cameraController.Init();
     }
 
     void ShuffleChain()
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("LEVEL FAILED - RETRY");
+                //m_cameraController.Init();
             }
             return;
         }
@@ -144,7 +147,7 @@ public class GameManager : MonoBehaviour
         m_actionStateCurrent = a_animation;
         int l_nNextAnimationIndex = GetNextChainIndex(l_nAnimationIndex);
         m_nCharacterAnimationsDone++;
-        CameraController.instance.NextCameraMove();
+        m_cameraController.NextCameraMove();
         StartCoroutine(WaitForSecond(3.0f, ()=>{
             PlayAnimationInChain((ActionState)l_nNextAnimationIndex);
         }));
